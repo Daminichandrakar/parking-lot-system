@@ -17,4 +17,11 @@ public class ParkingLotSystemTest {
         String result = parkingLotSystem.printMessage();
         Assert.assertEquals(result, "Welcome to ParkingLot System");
     }
+
+    @Test
+    public void givenAVehicle_WhenParked_ShouldReturnTrue() {
+        ParkingLotSystem parkingLotSystem = new ParkingLotSystem();
+        boolean isParked = parkingLotSystem.park(new Object());
+        Assert.assertTrue(isParked);
+    }
 }

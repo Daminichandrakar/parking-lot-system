@@ -8,11 +8,26 @@ package com.bridgelabz;
  */
 public class ParkingLotSystem {
 
+    ParkingLotSystem() {
+
+    }
+
     /**
      * Purpose : Create a method to print a message
+     *
      * @return : Welcome message
      */
     public String printMessage() {
-      return "Welcome to ParkingLot System";
+        return "Welcome to ParkingLot System";
+    }
+
+    /**
+     * Purpose : Create method to park the vehicle
+     *
+     * @param vehicle object : Take vehicle object as parameter
+     * @return boolean
+     */
+    public boolean park(Object vehicle) {
+        return false;
     }
 }
