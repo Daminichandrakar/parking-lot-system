@@ -1,5 +1,7 @@
 package com.bridgelabz;
 
+import java.util.ArrayList;
+
 /**
  * Purpose : To simulate ParkingLot System
  *
@@ -9,11 +11,12 @@ package com.bridgelabz;
 public class ParkingLotSystem {
     private final int parkingCapacity;
     private Object vehicle;
-    private ParkingOwner parkingOwner;
     private int currentCapacity = 0;
+    private ArrayList<ParkingLotSystemObserver> parkingLotSystemObservers;
 
     public ParkingLotSystem(int parkingCapacity) {
         this.parkingCapacity = parkingCapacity;
+        this.parkingLotSystemObservers = new ArrayList<ParkingLotSystemObserver>();
     }
 
     /**
@@ -33,7 +36,8 @@ public class ParkingLotSystem {
      */
     public void park(Object vehicle) throws ParkingLotException {
         if (this.parkingCapacity == currentCapacity) {
-            parkingOwner.parkingFull();
+            for (ParkingLotSystemObserver parkingLotSystemObserver : parkingLotSystemObservers)
+                parkingLotSystemObserver.parkingFull();
             throw new ParkingLotException("Parking lot is full");
         }
         this.vehicle = vehicle;
@@ -83,11 +87,10 @@ public class ParkingLotSystem {
     }
 
     /**
-     * Purpose : Create method to register owner
-     *
-     * @param parkingOwner : take parking owner as parameter
+     * Purpose: Add Observer Like Owner and Security In List
+     * @param observer To Add in the List
      */
-    public void registerOwner(ParkingOwner parkingOwner) {
-        this.parkingOwner = parkingOwner;
+    public void registerParkingLotSystemObserver(ParkingLotSystemObserver observer) {
+        this.parkingLotSystemObservers.add(observer);
     }
 }

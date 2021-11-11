@@ -45,7 +45,7 @@ public class ParkingLotSystemTest {
             parkingLotSystem.park(vehicle);
             parkingLotSystem.park(vehicle);
         } catch (ParkingLotException e) {
-           Assert.assertEquals(e.getMessage(),"Parking lot is full");
+            Assert.assertEquals(e.getMessage(), "Parking lot is full");
         }
 
     }
@@ -68,7 +68,7 @@ public class ParkingLotSystemTest {
         try {
             parkingLotSystem.unPark(null);
         } catch (ParkingLotException e) {
-           Assert.assertEquals("Vehicle is not available" , e.getMessage());
+            Assert.assertEquals("Vehicle is not available", e.getMessage());
         }
     }
 
@@ -76,11 +76,24 @@ public class ParkingLotSystemTest {
     public void givenVehicle_WhenParkingFull_ShouldInformOwner() {
         ParkingOwner parkingOwner = new ParkingOwner();
         try {
-            parkingLotSystem.registerOwner(parkingOwner);
+            parkingLotSystem.registerParkingLotSystemObserver(parkingOwner);
             parkingLotSystem.park(new Object());
             parkingLotSystem.park(vehicle);
         } catch (ParkingLotException e) {
             Assert.assertTrue(parkingOwner.isParkingFull());
+        }
+    }
+
+    @Test
+    public void givenVehicle_WhenParkingFull_ShouldInformToAirportSecurity() {
+        AirportSecurity airportSecurity = new AirportSecurity();
+        try {
+            parkingLotSystem.registerParkingLotSystemObserver(airportSecurity);
+            parkingLotSystem.park(vehicle);
+            parkingLotSystem.park(new Object());
+        } catch (ParkingLotException e) {
+            boolean parkingFull = airportSecurity.isParkingFull();
+            Assert.assertTrue(parkingFull);
         }
     }
 }
