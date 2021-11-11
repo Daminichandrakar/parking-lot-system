@@ -28,6 +28,6 @@ public class ParkingLotSystem {
      * @return boolean
      */
     public boolean park(Object vehicle) {
-        return false;
+        return true;
     }
 }
