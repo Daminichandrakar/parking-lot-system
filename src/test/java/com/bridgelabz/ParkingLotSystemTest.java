@@ -1,6 +1,7 @@
 package com.bridgelabz;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -11,17 +12,31 @@ import org.junit.Test;
  */
 public class ParkingLotSystemTest {
 
+    ParkingLotSystem parkingLotSystem = null;
+    Object vehicle = null;
+
+    @Before
+    public void setUp() throws Exception {
+        vehicle = new Object();
+        parkingLotSystem = new ParkingLotSystem();
+    }
+
     @Test
     public void givenWelcomeMessage_ShouldReturnMessage() {
-        ParkingLotSystem parkingLotSystem = new ParkingLotSystem();
         String result = parkingLotSystem.printMessage();
         Assert.assertEquals(result, "Welcome to ParkingLot System");
     }
 
     @Test
     public void givenAVehicle_WhenParked_ShouldReturnTrue() {
-        ParkingLotSystem parkingLotSystem = new ParkingLotSystem();
         boolean isParked = parkingLotSystem.park(new Object());
         Assert.assertTrue(isParked);
+    }
+
+    @Test
+    public void givenAVehicle_WhenUnParked_ShouldReturnTrue() {
+        parkingLotSystem.park(vehicle);
+        boolean isUnparked = parkingLotSystem.unPark(vehicle);
+        Assert.assertTrue(isUnparked);
     }
 }
