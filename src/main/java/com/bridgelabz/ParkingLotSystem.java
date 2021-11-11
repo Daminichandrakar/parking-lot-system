@@ -10,7 +10,6 @@ public class ParkingLotSystem {
     private Object vehicle;
 
     ParkingLotSystem() {
-
     }
 
     /**
@@ -26,28 +25,56 @@ public class ParkingLotSystem {
      * Purpose : Create method to park the vehicle
      *
      * @param vehicle object : Take vehicle object as parameter
-     * @return True when vehicle is parked
+     * @throws ParkingLotException when parking lot is full
+     *
      */
-    public boolean park(Object vehicle) {
+    public void park(Object vehicle) throws ParkingLotException {
         if (this.vehicle != null) {
-            return false;
+            throw new ParkingLotException("Parking lot is full");
         }
         this.vehicle = vehicle;
-        return true;
     }
 
     /**
-     * Purpose : Create method to unparkded the vehicle
+     * Purpose : This method is created to check
+     * the vehicle is parked or not
      *
-     * @param vehicle object : Take vehicle object as parameter
-     * @return True when object is unpakerd
+     * @param vehicle object : takes vehicle as parameter
+     * @return  vehicle is parked(true) or not(false)
      */
-    public boolean unPark(Object vehicle) {
-        if (vehicle == null) return false;
+    public boolean isVehicleParked(Object vehicle) {
         if (this.vehicle.equals(vehicle)) {
-            this.vehicle = null;
             return true;
         }
         return false;
     }
+
+
+    /**
+     * Purpose : Create method to unParked the vehicle
+     *
+     * @param vehicle object : Take vehicle object as parameter
+     * @throws  ParkingLotException when there is no vehicle to unParked
+     */
+    public void unPark(Object vehicle) throws ParkingLotException {
+        if (vehicle == null) throw new ParkingLotException("Vehicle cannot be null");
+        if (this.vehicle.equals(vehicle)) {
+            this.vehicle = null;
+        }
+    }
+
+    /**
+     * Purpose : This method is created to check
+     * the vehicle is unParked or not
+     *
+     * @param vehicle : takes vehicle as parameter
+     * @return the vehicle is unParked
+     */
+    public boolean isVehicleUnParked(Object vehicle) {
+        if (this.vehicle == null) {
+            return true;
+        }
+        return false;
+    }
+
 }

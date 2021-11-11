@@ -29,27 +29,47 @@ public class ParkingLotSystemTest {
 
     @Test
     public void givenAVehicle_WhenParked_ShouldReturnTrue() {
-        boolean isParked = parkingLotSystem.park(vehicle);
-        Assert.assertTrue(isParked);
+        try {
+            parkingLotSystem.park(vehicle);
+            boolean isParked = parkingLotSystem.isVehicleParked(vehicle);
+            Assert.assertTrue(isParked);
+        } catch (ParkingLotException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Test
-    public void givenAVehicle_WhenAlreadyParked_ShouldReturnFalse() {
-        parkingLotSystem.park(vehicle);
-        boolean isParked = parkingLotSystem.park(vehicle);
-        Assert.assertFalse(isParked);
+    public void givenAVehicle_WhenAlreadyParked_ShouldReturnException() {
+        try {
+            parkingLotSystem.park(vehicle);
+            parkingLotSystem.park(vehicle);
+        } catch (ParkingLotException e) {
+           Assert.assertEquals(e.getMessage(),"Parking lot is full");
+        }
+
     }
 
     @Test
     public void givenAVehicle_WhenUnParked_ShouldReturnTrue() {
-        parkingLotSystem.park(vehicle);
-        boolean isUnparked = parkingLotSystem.unPark(vehicle);
-        Assert.assertTrue(isUnparked);
+        try {
+            parkingLotSystem.park(vehicle);
+            parkingLotSystem.unPark(vehicle);
+            boolean isUnParked = parkingLotSystem.isVehicleUnParked(vehicle);
+            Assert.assertTrue(isUnParked);
+        } catch (ParkingLotException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Test
-    public void givenAVehicleNull_WhenUnParked_ShouldReturnFalse() {
-        boolean isUnparked = parkingLotSystem.unPark(null);
-        Assert.assertFalse(isUnparked);
+    public void givenAVehicleNull_WhenUnParked_ShouldReturnException() {
+        try {
+            parkingLotSystem.unPark(null);
+        } catch (ParkingLotException e) {
+           Assert.assertEquals("Vehicle cannot be null" , e.getMessage());
+        }
+
     }
 }
