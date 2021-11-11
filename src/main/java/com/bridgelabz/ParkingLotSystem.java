@@ -7,9 +7,13 @@ package com.bridgelabz;
  * @since 2021-11-11
  */
 public class ParkingLotSystem {
+    private final int parkingCapacity;
     private Object vehicle;
+    private ParkingOwner parkingOwner;
+    private int currentCapacity = 0;
 
-    ParkingLotSystem() {
+    public ParkingLotSystem(int parkingCapacity) {
+        this.parkingCapacity = parkingCapacity;
     }
 
     /**
@@ -26,13 +30,14 @@ public class ParkingLotSystem {
      *
      * @param vehicle object : Take vehicle object as parameter
      * @throws ParkingLotException when parking lot is full
-     *
      */
     public void park(Object vehicle) throws ParkingLotException {
-        if (this.vehicle != null) {
+        if (this.parkingCapacity == currentCapacity) {
+            parkingOwner.parkingFull();
             throw new ParkingLotException("Parking lot is full");
         }
         this.vehicle = vehicle;
+        currentCapacity++;
     }
 
     /**
@@ -40,7 +45,7 @@ public class ParkingLotSystem {
      * the vehicle is parked or not
      *
      * @param vehicle object : takes vehicle as parameter
-     * @return  vehicle is parked(true) or not(false)
+     * @return vehicle is parked(true) or not(false)
      */
     public boolean isVehicleParked(Object vehicle) {
         if (this.vehicle.equals(vehicle)) {
@@ -54,10 +59,10 @@ public class ParkingLotSystem {
      * Purpose : Create method to unParked the vehicle
      *
      * @param vehicle object : Take vehicle object as parameter
-     * @throws  ParkingLotException when there is no vehicle to unParked
+     * @throws ParkingLotException when there is no vehicle to unParked
      */
     public void unPark(Object vehicle) throws ParkingLotException {
-        if (vehicle == null) throw new ParkingLotException("Vehicle cannot be null");
+        if (vehicle == null) throw new ParkingLotException("Vehicle is not available");
         if (this.vehicle.equals(vehicle)) {
             this.vehicle = null;
         }
@@ -77,4 +82,12 @@ public class ParkingLotSystem {
         return false;
     }
 
+    /**
+     * Purpose : Create method to register owner
+     *
+     * @param parkingOwner : take parking owner as parameter
+     */
+    public void registerOwner(ParkingOwner parkingOwner) {
+        this.parkingOwner = parkingOwner;
+    }
 }

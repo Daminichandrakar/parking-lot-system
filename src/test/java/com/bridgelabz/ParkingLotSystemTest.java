@@ -18,7 +18,7 @@ public class ParkingLotSystemTest {
     @Before
     public void setUp() throws Exception {
         vehicle = new Object();
-        parkingLotSystem = new ParkingLotSystem();
+        parkingLotSystem = new ParkingLotSystem(1);
     }
 
     @Test
@@ -68,8 +68,19 @@ public class ParkingLotSystemTest {
         try {
             parkingLotSystem.unPark(null);
         } catch (ParkingLotException e) {
-           Assert.assertEquals("Vehicle cannot be null" , e.getMessage());
+           Assert.assertEquals("Vehicle is not available" , e.getMessage());
         }
+    }
 
+    @Test
+    public void givenVehicle_WhenParkingFull_ShouldInformOwner() {
+        ParkingOwner parkingOwner = new ParkingOwner();
+        try {
+            parkingLotSystem.registerOwner(parkingOwner);
+            parkingLotSystem.park(new Object());
+            parkingLotSystem.park(vehicle);
+        } catch (ParkingLotException e) {
+            Assert.assertTrue(parkingOwner.isParkingFull());
+        }
     }
 }
