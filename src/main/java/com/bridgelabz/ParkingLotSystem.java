@@ -1,6 +1,7 @@
 package com.bridgelabz;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Purpose : To simulate ParkingLot System
@@ -10,12 +11,13 @@ import java.util.ArrayList;
  */
 public class ParkingLotSystem {
     private final int parkingCapacity;
-    private Object vehicle;
+    private List vehicle;
     private int currentCapacity = 0;
     private ArrayList<ParkingLotSystemObserver> parkingLotSystemObservers;
 
     public ParkingLotSystem(int parkingCapacity) {
         this.parkingCapacity = parkingCapacity;
+        this.vehicle = new ArrayList();
         this.parkingLotSystemObservers = new ArrayList<ParkingLotSystemObserver>();
     }
 
@@ -40,7 +42,7 @@ public class ParkingLotSystem {
                 parkingLotSystemObserver.parkingFull();
             throw new ParkingLotException("Parking lot is full");
         }
-        this.vehicle = vehicle;
+        this.vehicle.add(vehicle);
         currentCapacity++;
     }
 
@@ -52,7 +54,7 @@ public class ParkingLotSystem {
      * @return vehicle is parked(true) or not(false)
      */
     public boolean isVehicleParked(Object vehicle) {
-        if (this.vehicle.equals(vehicle)) {
+        if (this.vehicle.contains(vehicle)) {
             return true;
         }
         return false;
@@ -65,11 +67,12 @@ public class ParkingLotSystem {
      * @param vehicle object : Take vehicle object as parameter
      * @throws ParkingLotException when there is no vehicle to unParked
      */
-    public void unPark(Object vehicle) throws ParkingLotException {
-        if (vehicle == null) throw new ParkingLotException("Vehicle is not available");
-        if (this.vehicle.equals(vehicle)) {
-            this.vehicle = null;
+    public boolean unPark(Object vehicle) throws ParkingLotException {
+        if (this.vehicle.contains(vehicle)) {
+            this.vehicle.remove(vehicle);
+            return true;
         }
+        throw new ParkingLotException("Vehicle is not available");
     }
 
     /**

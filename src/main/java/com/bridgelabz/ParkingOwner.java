@@ -23,4 +23,9 @@ public class ParkingOwner implements ParkingLotSystemObserver{
     public boolean isParkingFull() {
         return this.parkingCapacity;
     }
+
+    @Override
+    public void parkingAvailable() {
+        this.parkingCapacity = false;
+    }
 }

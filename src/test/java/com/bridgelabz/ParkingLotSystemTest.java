@@ -96,4 +96,19 @@ public class ParkingLotSystemTest {
             Assert.assertTrue(parkingFull);
         }
     }
+
+    @Test
+    public void givenVehicle_WhenParkingAvailableAndOwnerIsObserver_ShouldInformOwner() {
+        ParkingOwner parkingOwner = new ParkingOwner();
+        try {
+            parkingLotSystem.registerParkingLotSystemObserver(parkingOwner);
+            parkingLotSystem.park(vehicle);
+            parkingLotSystem.park(new Object());
+            Assert.assertTrue(parkingOwner.isParkingFull());
+            parkingLotSystem.unPark(vehicle);
+            Assert.assertFalse(parkingOwner.isParkingFull());
+        } catch (ParkingLotException e) {
+            Assert.assertEquals("Parking lot is full", e.getMessage());
+        }
+    }
 }
