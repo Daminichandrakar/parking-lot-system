@@ -111,4 +111,10 @@ public class ParkingLotSystemTest {
         int slotNumber = parkingLotSystem.findVehicle(vehicle);
         Assert.assertEquals(0, slotNumber);
     }
+
+    @Test
+    public void givenParkingLotSystem_WhenVehicleNotFound_ShouldReturnException() {
+        listOfEmptyParkingSlots = parkingLotSystem.getListOfEmptyParkingSlots();
+        Assert.assertThrows("Vehicle Is Not Available",ParkingLotException.class,() -> parkingLotSystem.findVehicle(vehicle));
+    }
 }
