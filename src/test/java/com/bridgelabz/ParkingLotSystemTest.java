@@ -96,12 +96,19 @@ public class ParkingLotSystemTest {
         Assert.assertFalse(parkingOwner.isParkingFull());
     }
 
-
     @Test
     public void givenParkingLotSystem_WhenListOfEmptySlotsCalled_ShouldReturnAvailableSlots() {
         listOfEmptyParkingSlots = parkingLotSystem.getListOfEmptyParkingSlots();
         parkingLotSystem.park(vehicle, 0);
         listOfEmptyParkingSlots = parkingLotSystem.getListOfEmptyParkingSlots();
         Assert.assertEquals(1, listOfEmptyParkingSlots.size());
+    }
+
+    @Test
+    public void givenParkingLotSystem_WhenVehicleFound_ShouldReturnVehicleSlot() {
+        listOfEmptyParkingSlots = parkingLotSystem.getListOfEmptyParkingSlots();
+        parkingLotSystem.park(vehicle, 0);
+        int slotNumber = parkingLotSystem.findVehicle(vehicle);
+        Assert.assertEquals(0, slotNumber);
     }
 }
