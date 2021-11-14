@@ -15,12 +15,11 @@ import java.util.List;
 public class ParkingLotSystemTest {
 
     ParkingLotSystem parkingLotSystem = null;
-    Object vehicle = null;
+    Vehicle vehicle = null;
     private List<Integer> listOfEmptyParkingSlots;
 
     @Before
     public void setUp() throws Exception {
-        vehicle = new Object();
         parkingLotSystem = new ParkingLotSystem(2);
     }
 
@@ -32,22 +31,26 @@ public class ParkingLotSystemTest {
 
     @Test
     public void givenAVehicle_WhenParked_ShouldReturnTrue() {
-        parkingLotSystem.park(vehicle , 0);
+        vehicle = new Vehicle("Lamborghini", "HR-26CF2784", "11:00");
+        parkingLotSystem.park(vehicle, 0);
         boolean isParked = parkingLotSystem.isVehicleParked(vehicle);
         Assert.assertTrue(isParked);
     }
 
     @Test
     public void givenAVehicle_WhenAlreadyParked_ShouldReturnException() {
+        Vehicle vehicle1 = new Vehicle("Lamborghini", "HR-26CF2784", "11:00");
+        Vehicle vehicle2 = new Vehicle("Ford ", "HR-28CG2784", "11:15");
         Assert.assertThrows("Parking lot is full", ParkingLotException.class, () -> {
-            parkingLotSystem.park(vehicle , 0) ;
-            parkingLotSystem.park(vehicle , 1);
+            parkingLotSystem.park(vehicle, 0);
+            parkingLotSystem.park(vehicle, 1);
         });
     }
 
     @Test
     public void givenAVehicle_WhenUnParked_ShouldReturnTrue() {
-        parkingLotSystem.park(vehicle , 0);
+        vehicle = new Vehicle("Lamborghini", "HR-26CF2784", "11:40");
+        parkingLotSystem.park(vehicle, 0);
         Assert.assertTrue(parkingLotSystem.isVehicleParked(vehicle));
         parkingLotSystem.unPark(vehicle);
         Assert.assertTrue(parkingLotSystem.isVehicleUnParked(vehicle));
@@ -61,23 +64,29 @@ public class ParkingLotSystemTest {
     @Test
     public void givenVehicle_WhenParkingFull_ShouldInformOwner() {
         ParkingOwner parkingOwner = new ParkingOwner();
+        Vehicle vehicle1 = new Vehicle("Lamborghini", "HR-26CF2784", "11:00");
+        Vehicle vehicle2 = new Vehicle("Ford ", "HR-28CG2784", "11:15");
+        Vehicle vehicle3 = new Vehicle("Ferrari", "HR-26CK2784", "11:20");
         parkingLotSystem.registerParkingLotSystemObserver(parkingOwner);
         Assert.assertThrows("Parking lot is full", ParkingLotException.class, () -> {
-            parkingLotSystem.park(new Object(),0);
-            parkingLotSystem.park(vehicle,1);
-            parkingLotSystem.park(vehicle,2);
+            parkingLotSystem.park(vehicle1, 0);
+            parkingLotSystem.park(vehicle2, 1);
+            parkingLotSystem.park(vehicle3, 2);
         });
         Assert.assertTrue(parkingOwner.isParkingFull());
     }
 
     @Test
     public void givenVehicle_WhenParkingFull_ShouldInformToAirportSecurity() {
+        Vehicle vehicle1 = new Vehicle("Lamborghini", "HR-26CF2784", "11:00");
+        Vehicle vehicle2 = new Vehicle("Ford ", "HR-28CG2784", "11:15");
+        Vehicle vehicle3 = new Vehicle("Ferrari", "HR-26CK2784", "11:20");
         AirportSecurity airportSecurity = new AirportSecurity();
         parkingLotSystem.registerParkingLotSystemObserver(airportSecurity);
         Assert.assertThrows("Parking lot is full", ParkingLotException.class, () -> {
-            parkingLotSystem.park(new Object(),0);
-            parkingLotSystem.park(vehicle , 1);
-            parkingLotSystem.park(vehicle,2);
+            parkingLotSystem.park(vehicle1, 0);
+            parkingLotSystem.park(vehicle2, 1);
+            parkingLotSystem.park(vehicle3, 2);
         });
         Assert.assertTrue(airportSecurity.isParkingFull());
     }
@@ -85,20 +94,24 @@ public class ParkingLotSystemTest {
     @Test
     public void givenVehicle_WhenParkingAvailableAndOwnerIsObserver_ShouldInformOwner() {
         ParkingOwner parkingOwner = new ParkingOwner();
+        Vehicle vehicle1 = new Vehicle("Lamborghini", "HR-26CF2784", "11:00");
+        Vehicle vehicle2 = new Vehicle("Ford ", "HR-28CG2784", "11:15");
+        Vehicle vehicle3 = new Vehicle("Ferrari", "HR-26CK2784", "11:20");
         parkingLotSystem.registerParkingLotSystemObserver(parkingOwner);
         Assert.assertThrows(ParkingLotException.class, () -> {
-            parkingLotSystem.park(vehicle , 0);
-            parkingLotSystem.park(new Object() , 1);
-            parkingLotSystem.park(new Object() , 2);
+            parkingLotSystem.park(vehicle1, 0);
+            parkingLotSystem.park(vehicle2, 1);
+            parkingLotSystem.park(vehicle3, 2);
         });
         Assert.assertTrue(parkingOwner.isParkingFull());
-        parkingLotSystem.unPark(vehicle);
+        parkingLotSystem.unPark(vehicle1);
         Assert.assertFalse(parkingOwner.isParkingFull());
     }
 
     @Test
     public void givenParkingLotSystem_WhenListOfEmptySlotsCalled_ShouldReturnAvailableSlots() {
         listOfEmptyParkingSlots = parkingLotSystem.getListOfEmptyParkingSlots();
+        Vehicle vehicle = new Vehicle("Lamborghini", "HR-26CF2784", "11:00");
         parkingLotSystem.park(vehicle, 0);
         listOfEmptyParkingSlots = parkingLotSystem.getListOfEmptyParkingSlots();
         Assert.assertEquals(1, listOfEmptyParkingSlots.size());
@@ -107,6 +120,7 @@ public class ParkingLotSystemTest {
     @Test
     public void givenParkingLotSystem_WhenVehicleFound_ShouldReturnVehicleSlot() {
         listOfEmptyParkingSlots = parkingLotSystem.getListOfEmptyParkingSlots();
+        Vehicle vehicle = new Vehicle("Lamborghini", "HR-26CF2784", "11:00");
         parkingLotSystem.park(vehicle, 0);
         int slotNumber = parkingLotSystem.findVehicle(vehicle);
         Assert.assertEquals(0, slotNumber);
@@ -115,6 +129,7 @@ public class ParkingLotSystemTest {
     @Test
     public void givenParkingLotSystem_WhenVehicleNotFound_ShouldReturnException() {
         listOfEmptyParkingSlots = parkingLotSystem.getListOfEmptyParkingSlots();
-        Assert.assertThrows("Vehicle Is Not Available",ParkingLotException.class,() -> parkingLotSystem.findVehicle(vehicle));
+        Vehicle vehicle = new Vehicle("Lamborghini", "HR-26CF2784", "11:00");
+        Assert.assertThrows("Vehicle Is Not Available", ParkingLotException.class, () -> parkingLotSystem.findVehicle(vehicle));
     }
 }
