@@ -132,4 +132,12 @@ public class ParkingLotSystemTest {
         Vehicle vehicle = new Vehicle("Lamborghini", "HR-26CF2784", "11:00");
         Assert.assertThrows("Vehicle Is Not Available", ParkingLotException.class, () -> parkingLotSystem.findVehicle(vehicle));
     }
+
+    @Test
+    public void givenAVehicle_WhenParked_ThenCheckTimeOfParking_ShouldReturnParkingTime() {
+        Vehicle vehicle = new Vehicle("Lamborghini", "HR-26CF2784", "11:00");
+        parkingLotSystem.park(vehicle, 0);
+        String vehicleParkingTime = parkingLotSystem.getVehicleParkingTime(vehicle);
+        Assert.assertEquals("11:00", vehicleParkingTime);
+    }
 }

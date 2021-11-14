@@ -42,7 +42,6 @@ public class ParkingLotSystem {
 
     /**
      * Purpose : Create method to park the vehicle
-     *
      * @param vehicle object : Take vehicle object as parameter
      * @throws ParkingLotException when parking lot is full
      */
@@ -61,7 +60,6 @@ public class ParkingLotSystem {
     /**
      * Purpose : This method is created to check
      * the vehicle is parked or not
-     *
      * @param vehicle object : takes vehicle as parameter
      * @return vehicle is parked(true) or not(false)
      */
@@ -74,7 +72,6 @@ public class ParkingLotSystem {
 
     /**
      * Purpose : Create method to unParked the vehicle
-     *
      * @param vehicle object : Take vehicle object as parameter
      * @throws ParkingLotException when there is no vehicle to unParked
      */
@@ -94,7 +91,6 @@ public class ParkingLotSystem {
     /**
      * Purpose : This method is created to check
      * the vehicle is unParked or not
-     *
      * @param vehicle : takes vehicle as parameter
      * @return the vehicle is unParked
      */
@@ -107,7 +103,6 @@ public class ParkingLotSystem {
 
     /**
      * Purpose: Add Observer Like Owner and Security In List
-     *
      * @param observer To Add in the List
      */
     public void registerParkingLotSystemObserver(ParkingLotSystemObserver observer) {
@@ -131,13 +126,27 @@ public class ParkingLotSystem {
 
     /**
      * Purpose : To find the vehicle
+     *
      * @param vehicle : Take vehicle as a parameter
      * @return index of vehicle that we want to find
      */
     public int findVehicle(Object vehicle) {
-        if(this.vehicleList.contains(vehicle)) {
+        if (this.vehicleList.contains(vehicle)) {
             return this.vehicleList.indexOf(vehicle);
         }
         throw new ParkingLotException("Vehicle Is Not Available");
     }
+
+    /**
+     * Purpose: To Find At what Time Vehicle Was Parked
+     * @param vehicle is passed as parameter
+     * @return vehicle parked time
+     */
+    public String getVehicleParkingTime(Vehicle vehicle) {
+        if (isVehicleParked(vehicle)) {
+            return vehicle.getParkingTime();
+        }
+        return null;
+    }
+
 }
