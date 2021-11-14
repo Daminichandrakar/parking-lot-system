@@ -6,7 +6,7 @@ package com.bridgelabz;
  * @author DAMINI CHANDRAKAR
  * @since 2021-11-11
  */
-public class ParkingLotException extends Exception {
+public class ParkingLotException extends RuntimeException {
     public ParkingLotException(String message) {
         super(message);
     }

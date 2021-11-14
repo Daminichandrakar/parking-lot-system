@@ -12,12 +12,11 @@ import java.util.List;
 public class ParkingLotSystem {
     private final int parkingCapacity;
     private List vehicle;
-    private int currentCapacity = 0;
     private ArrayList<ParkingLotSystemObserver> parkingLotSystemObservers;
 
     public ParkingLotSystem(int parkingCapacity) {
         this.parkingCapacity = parkingCapacity;
-        this.vehicle = new ArrayList();
+        initializeParkingLot();
         this.parkingLotSystemObservers = new ArrayList<ParkingLotSystemObserver>();
     }
 
@@ -31,19 +30,31 @@ public class ParkingLotSystem {
     }
 
     /**
+     * Purpose: Initialize The VehiclesList With Null Values
+     */
+    public void initializeParkingLot() {
+        this.vehicle = new ArrayList();
+        for (int i = 0; i < this.parkingCapacity; i++) {
+            vehicle.add(i, null);
+        }
+    }
+
+    /**
      * Purpose : Create method to park the vehicle
      *
      * @param vehicle object : Take vehicle object as parameter
      * @throws ParkingLotException when parking lot is full
      */
-    public void park(Object vehicle) throws ParkingLotException {
-        if (this.parkingCapacity == currentCapacity) {
+    public void park(Object vehicle, Integer slot) throws ParkingLotException {
+        if (this.vehicle.size() == parkingCapacity && !this.vehicle.contains(null)) {
             for (ParkingLotSystemObserver parkingLotSystemObserver : parkingLotSystemObservers)
                 parkingLotSystemObserver.parkingFull();
             throw new ParkingLotException("Parking lot is full");
         }
-        this.vehicle.add(vehicle);
-        currentCapacity++;
+        if (this.vehicle.contains(vehicle)) {
+            throw new ParkingLotException("Vehicle already exist");
+        }
+        this.vehicle.set(slot, vehicle);
     }
 
     /**
@@ -60,7 +71,6 @@ public class ParkingLotSystem {
         return false;
     }
 
-
     /**
      * Purpose : Create method to unParked the vehicle
      *
@@ -68,8 +78,13 @@ public class ParkingLotSystem {
      * @throws ParkingLotException when there is no vehicle to unParked
      */
     public boolean unPark(Object vehicle) throws ParkingLotException {
+        if (vehicle == null) {
+            throw new ParkingLotException("Vehicle is not available");
+        }
         if (this.vehicle.contains(vehicle)) {
             this.vehicle.remove(vehicle);
+            for (ParkingLotSystemObserver parkingLotSystemObserver : parkingLotSystemObservers)
+                parkingLotSystemObserver.parkingAvailable();
             return true;
         }
         throw new ParkingLotException("Vehicle is not available");
@@ -83,17 +98,33 @@ public class ParkingLotSystem {
      * @return the vehicle is unParked
      */
     public boolean isVehicleUnParked(Object vehicle) {
-        if (this.vehicle == null) {
-            return true;
+        if (this.vehicle.contains(vehicle)) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     /**
      * Purpose: Add Observer Like Owner and Security In List
+     *
      * @param observer To Add in the List
      */
     public void registerParkingLotSystemObserver(ParkingLotSystemObserver observer) {
         this.parkingLotSystemObservers.add(observer);
+    }
+
+    /**
+     * Purpose: To Get List Of Empty Parking Slots
+     *
+     * @return List Of Slots
+     */
+    public List<Integer> getListOfEmptyParkingSlots() {
+        List<Integer> emptyParkingSlotList = new ArrayList<>();
+        for (int i = 0; i < parkingCapacity; i++) {
+            if (this.vehicle.get(i) == null) {
+                emptyParkingSlotList.add(i);
+            }
+        }
+        return emptyParkingSlotList;
     }
 }
