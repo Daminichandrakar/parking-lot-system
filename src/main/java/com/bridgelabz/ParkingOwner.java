@@ -24,9 +24,12 @@ public class ParkingOwner implements ParkingLotSystemObserver{
         return this.parkingCapacity;
     }
 
+    /**
+     * Purpose : To Check Parking Is Available
+     * @return false if parking is available
+     */
     @Override
     public boolean parkingAvailable() {
        return this.parkingCapacity = false;
-
     }
 }

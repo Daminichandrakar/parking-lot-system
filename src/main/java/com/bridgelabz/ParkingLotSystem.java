@@ -1,5 +1,7 @@
 package com.bridgelabz;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class ParkingLotSystem {
     private final int parkingCapacity;
     private List<Vehicle> vehicleList;
     private ArrayList<ParkingLotSystemObserver> parkingLotSystemObservers;
-    private Vehicle vehicle;
+    DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm");
 
     public ParkingLotSystem(int parkingCapacity) {
         this.parkingCapacity = parkingCapacity;
@@ -23,7 +25,6 @@ public class ParkingLotSystem {
 
     /**
      * Purpose : Create a method to print a message
-     *
      * @return : Welcome message
      */
     public String printMessage() {
@@ -55,6 +56,7 @@ public class ParkingLotSystem {
             throw new ParkingLotException("Vehicle already exist");
         }
         this.vehicleList.set(slot, vehicle);
+        vehicle.setParkingTime(LocalDateTime.now().format(format));
     }
 
     /**
@@ -75,17 +77,16 @@ public class ParkingLotSystem {
      * @param vehicle object : Take vehicle object as parameter
      * @throws ParkingLotException when there is no vehicle to unParked
      */
-    public boolean unPark(Object vehicle) throws ParkingLotException {
+    public void unPark(Object vehicle) throws ParkingLotException {
         if (vehicle == null) {
             throw new ParkingLotException("Vehicle is not available");
         }
         if (this.vehicleList.contains(vehicle)) {
             this.vehicleList.remove(vehicle);
-            for (ParkingLotSystemObserver parkingLotSystemObserver : parkingLotSystemObservers)
+            for (ParkingLotSystemObserver parkingLotSystemObserver : parkingLotSystemObservers) {
                 parkingLotSystemObserver.parkingAvailable();
-            return true;
+            }
         }
-        throw new ParkingLotException("Vehicle is not available");
     }
 
     /**
@@ -103,6 +104,7 @@ public class ParkingLotSystem {
 
     /**
      * Purpose: Add Observer Like Owner and Security In List
+     *
      * @param observer To Add in the List
      */
     public void registerParkingLotSystemObserver(ParkingLotSystemObserver observer) {
@@ -125,9 +127,9 @@ public class ParkingLotSystem {
     }
 
     /**
-     * Purpose : To find the vehicle
-     *
-     * @param vehicle : Take vehicle as a parameter
+     * Purpose : To find the vehicle where it is parked in the lot
+     * @param vehicle : Take vehicle as a parameter so that we can find that vehicle is
+     * where parked in the lot
      * @return index of vehicle that we want to find
      */
     public int findVehicle(Object vehicle) {
@@ -138,15 +140,15 @@ public class ParkingLotSystem {
     }
 
     /**
-     * Purpose: To Find At what Time Vehicle Was Parked
-     * @param vehicle is passed as parameter
-     * @return vehicle parked time
+     * Purpose: To find at what time vehicle is parked
+     * @param vehicle is passed as parameter to check the vehicle parking time
+     * @return vehicle parked time in the form of string
      */
     public String getVehicleParkingTime(Vehicle vehicle) {
         if (isVehicleParked(vehicle)) {
             return vehicle.getParkingTime();
         }
-        return null;
+        throw new ParkingLotException("Vehicle is not found");
     }
 
 }
