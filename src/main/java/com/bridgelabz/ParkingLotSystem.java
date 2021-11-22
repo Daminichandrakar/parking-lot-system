@@ -191,4 +191,23 @@ public class ParkingLotSystem {
             }
         throw new ParkingLotException("No Such Vehicle Found");
     }
+
+    /**
+     * Purpose : This method is created to know the vehicle plate number of blue color Toyota vehicle
+     *
+     * @param vehicle : takes vehicle as parameter for checking the blue color Toyota vehicle's plate number
+     * @return the vehicle number of that particular vehicle
+     * @throws ParkingLotException : when no such blue color Toyota is found
+     */
+    public String getBlueColorToyotaVehicleNumber(Vehicle vehicle) throws ParkingLotException {
+        if (isVehicleParked(vehicle)
+                && vehicle.getVehicleColor().equals("Blue")
+                && vehicle.getName().equals("TOYOTA"))
+            for (Vehicle vehicleNumberPlate : vehicleList) {
+                if (vehicleNumberPlate.equals(vehicle))
+                    return vehicleNumberPlate.getVehicleNumber();
+            }
+        throw new ParkingLotException("No Such Vehicle Parked");
+    }
+
 }
