@@ -6,14 +6,16 @@ package com.bridgelabz;
  * @since 2021-11-11
  */
 public class Vehicle {
-    private  String name;
-    private  String vehicleNumber;
+    private String name;
+    private String vehicleNumber;
     private String parkingTime;
+    private String vehicleColor;
 
-    public Vehicle(String name, String vehicleNumber) {
+
+    public Vehicle(String name, String vehicleNumber, String vehicleColor) {
         this.name = name;
         this.vehicleNumber = vehicleNumber;
-        //this.parkingTime = LocalTime.now();
+        this.vehicleColor = vehicleColor;
     }
 
     public String getParkingTime() {
@@ -24,4 +26,7 @@ public class Vehicle {
         this.parkingTime = parkingTime;
     }
 
+    public String getVehicleColor() {
+        return vehicleColor;
+    }
 }

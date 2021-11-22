@@ -25,6 +25,7 @@ public class ParkingLotSystem {
 
     /**
      * Purpose : Create a method to print a message
+     *
      * @return : Welcome message
      */
     public String printMessage() {
@@ -43,6 +44,7 @@ public class ParkingLotSystem {
 
     /**
      * Purpose : Create method to park the vehicle
+     *
      * @param vehicle object : Take vehicle object as parameter
      * @throws ParkingLotException when parking lot is full
      */
@@ -62,6 +64,7 @@ public class ParkingLotSystem {
     /**
      * Purpose : This method is created to check
      * the vehicle is parked or not
+     *
      * @param vehicle object : takes vehicle as parameter
      * @return vehicle is parked(true) or not(false)
      */
@@ -74,6 +77,7 @@ public class ParkingLotSystem {
 
     /**
      * Purpose : Create method to unParked the vehicle
+     *
      * @param vehicle object : Take vehicle object as parameter
      * @throws ParkingLotException when there is no vehicle to unParked
      */
@@ -92,6 +96,7 @@ public class ParkingLotSystem {
     /**
      * Purpose : This method is created to check
      * the vehicle is unParked or not
+     *
      * @param vehicle : takes vehicle as parameter
      * @return the vehicle is unParked
      */
@@ -128,8 +133,9 @@ public class ParkingLotSystem {
 
     /**
      * Purpose : To find the vehicle where it is parked in the lot
+     *
      * @param vehicle : Take vehicle as a parameter so that we can find that vehicle is
-     * where parked in the lot
+     *                where parked in the lot
      * @return index of vehicle that we want to find
      */
     public int findVehicle(Object vehicle) {
@@ -141,6 +147,7 @@ public class ParkingLotSystem {
 
     /**
      * Purpose: To find at what time vehicle is parked
+     *
      * @param vehicle is passed as parameter to check the vehicle parking time
      * @return vehicle parked time in the form of string
      */
@@ -149,6 +156,22 @@ public class ParkingLotSystem {
             return vehicle.getParkingTime();
         }
         throw new ParkingLotException("Vehicle is not found");
+    }
+
+    /**
+     * Purpose : This method is created to know the location of all parked white cars
+     *
+     * @param vehicle : takes vehicle as parameter for checking the particular color of parked vehicle is white
+     * @return the index position of the particular vehicle to get back the location
+     * @throws ParkingLotException : when no such white color vehicle is found
+     */
+    public int getWhiteColorVehiclePosition(Vehicle vehicle) throws ParkingLotException {
+        if (isVehicleParked(vehicle) && vehicle.getVehicleColor().equals("White"))
+            for (Vehicle vehiclePosition : vehicleList) {
+                if (vehiclePosition.equals(vehicle))
+                    return vehicleList.indexOf(vehiclePosition);
+            }
+        throw new ParkingLotException("No Such Vehicle Found");
     }
 
 }
