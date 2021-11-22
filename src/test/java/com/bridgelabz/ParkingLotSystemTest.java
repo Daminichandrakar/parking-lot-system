@@ -161,7 +161,7 @@ public class ParkingLotSystemTest {
     }
 
     @Test
-    public void givenAVehicle_WhenSearchForBlueToyota_ShouldReturnTheLocation() throws ParkingLotException {
+    public void givenAVehicle_WhenSearchForBlueToyota_ShouldReturnTheLocation() {
         Vehicle vehicle1 = new Vehicle("TOYOTA", "HR-CF2784", "Red");
         Vehicle vehicle2 = new Vehicle("TOYOTA", "HR-CF2784", "Blue");
         parkingLotSystem.park(vehicle1,0);
@@ -173,7 +173,7 @@ public class ParkingLotSystemTest {
     }
 
     @Test
-   public void givenAVehicle_WhenSearchForBlueToyota_ShouldReturnTheVehicleNumber() throws ParkingLotException {
+   public void givenAVehicle_WhenSearchForBlueToyota_ShouldReturnTheVehicleNumber() {
         Vehicle vehicle1 = new Vehicle("TOYOTA", "HR-CF2784", "Red");
         Vehicle vehicle2 = new Vehicle("TOYOTA", "HR-CF2784", "Blue");
         parkingLotSystem.park(vehicle1,0);
@@ -182,5 +182,17 @@ public class ParkingLotSystemTest {
                 () -> parkingLotSystem.getBlueColorToyotaVehicleNumber(vehicle1));
         String actualVehicleNumber = parkingLotSystem.getBlueColorToyotaVehicleNumber(vehicle2);
         Assert.assertEquals(vehicle2.getVehicleNumber(), actualVehicleNumber);
+    }
+
+    @Test
+   public void givenAVehicle_WhenSearchForBMWVehicle_ShouldLocateProperly(){
+        Vehicle vehicle1 = new Vehicle("TOYOTA", "HR-CF2784", "Red");
+        Vehicle vehicle2 = new Vehicle("BMW", "HR-CF2784", "Blue");
+        parkingLotSystem.park(vehicle1,0);
+        parkingLotSystem.park(vehicle2,1);
+        Assert.assertThrows(ParkingLotException.class,
+                () -> parkingLotSystem.getBMWVehiclePosition(vehicle1));
+        int positionOfVehicle2 = parkingLotSystem.getBMWVehiclePosition(vehicle2);
+        Assert.assertEquals(1, positionOfVehicle2);
     }
 }
