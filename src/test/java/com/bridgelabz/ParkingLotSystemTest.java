@@ -148,16 +148,28 @@ public class ParkingLotSystemTest {
 //    }
 
     @Test
-     public void givenAVehicle_WhenSearchForParkedWhiteColorVehicle_ShouldReturnTheLocation(){
-        Vehicle vehicle1 = new Vehicle("TOYOTA", "KL-MH25698",  "White");
-        Vehicle vehicle2 = new Vehicle("TOYOTA", "KL-MH25698",  "Red");
-        parkingLotSystem.park(vehicle1 , 0);
-        parkingLotSystem.park(vehicle2 , 1);
+    public void givenAVehicle_WhenSearchForParkedWhiteColorVehicle_ShouldReturnTheLocation() {
+        Vehicle vehicle1 = new Vehicle("TOYOTA", "KL-MH25698", "White");
+        Vehicle vehicle2 = new Vehicle("TOYOTA", "KL-MH25698", "Red");
+        parkingLotSystem.park(vehicle1, 0);
+        parkingLotSystem.park(vehicle2, 1);
         int positionOfVehicle1 = parkingLotSystem.getWhiteColorVehiclePosition(vehicle1);
         Assert.assertThrows(ParkingLotException.class,
                 () -> parkingLotSystem.getWhiteColorVehiclePosition(vehicle2));
         System.out.println(positionOfVehicle1);
         Assert.assertEquals(0, positionOfVehicle1);
+    }
+
+    @Test
+    public void givenAVehicle_WhenSearchForBlueToyota_ShouldReturnTheLocation() throws ParkingLotException {
+        Vehicle vehicle1 = new Vehicle("TOYOTA", "KL-MH25698", "Red");
+        Vehicle vehicle2 = new Vehicle("TOYOTA", "KL-MH25698", "Blue");
+        parkingLotSystem.park(vehicle1,0);
+        parkingLotSystem.park(vehicle2,1);
+        Assert.assertThrows(ParkingLotException.class,
+                () -> parkingLotSystem.getBlueColorToyotaVehiclePosition(vehicle1));
+        int positionOfVehicle2 = parkingLotSystem.getBlueColorToyotaVehiclePosition(vehicle2);
+        Assert.assertEquals(1, positionOfVehicle2);
     }
 
 }

@@ -29,4 +29,12 @@ public class Vehicle {
     public String getVehicleColor() {
         return vehicleColor;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getVehicleNumber() {
+        return vehicleNumber;
+    }
 }

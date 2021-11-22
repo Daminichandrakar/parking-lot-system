@@ -174,4 +174,21 @@ public class ParkingLotSystem {
         throw new ParkingLotException("No Such Vehicle Found");
     }
 
+    /**
+     * Purpose : This method is created to know the location of blue color Toyota vehicle
+     *
+     * @param vehicle : takes vehicle as parameter for checking the blue color Toyota vehicle's location
+     * @return the index position of that particular vehicle
+     * @throws ParkingLotException : when no such blue color Toyota vehicle is found
+     */
+    public int getBlueColorToyotaVehiclePosition(Vehicle vehicle) throws ParkingLotException {
+        if (isVehicleParked(vehicle)
+                && vehicle.getVehicleColor().equals("Blue")
+                && vehicle.getName().equals("TOYOTA"))
+            for (Vehicle position : vehicleList) {
+                if (position.equals(vehicle))
+                    return vehicleList.indexOf(position);
+            }
+        throw new ParkingLotException("No Such Vehicle Found");
+    }
 }
