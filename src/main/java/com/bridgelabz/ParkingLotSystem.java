@@ -16,6 +16,7 @@ public class ParkingLotSystem {
     private List<Vehicle> vehicleList;
     private ArrayList<ParkingLotSystemObserver> parkingLotSystemObservers;
     DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm");
+    int numberOfCarParked;
 
     public ParkingLotSystem(int parkingCapacity) {
         this.parkingCapacity = parkingCapacity;
@@ -59,6 +60,7 @@ public class ParkingLotSystem {
         }
         this.vehicleList.set(slot, vehicle);
         vehicle.setParkingTime(LocalDateTime.now().format(format));
+        this.numberOfCarParked++;
     }
 
     /**
@@ -227,4 +229,12 @@ public class ParkingLotSystem {
         throw new ParkingLotException("No Such Vehicle Found");
     }
 
+    /**
+     * Purpose : This method is created to get all parkedVehicle
+     *
+     * @return the number of parked car
+     */
+    public int getNumberOfParkedVehicle() throws ParkingLotException {
+       return this.numberOfCarParked;
+    }
 }
