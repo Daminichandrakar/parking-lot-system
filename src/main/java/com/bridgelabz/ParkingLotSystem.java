@@ -1,9 +1,7 @@
 package com.bridgelabz;
 
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Purpose : To simulate ParkingLot System
@@ -15,8 +13,8 @@ public class ParkingLotSystem {
     private final int parkingCapacity;
     private ArrayList<ParkingLotSystemObserver> parkingLotSystemObservers;
     DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm");
-    private Map<Integer, Vehicle> parkingLot1 = new HashMap<>();
-    private Map<Integer, Vehicle> parkingLot2 = new HashMap<>();
+    public Map<Integer, Vehicle> parkingLot1 = new HashMap<>();
+    public Map<Integer, Vehicle> parkingLot2 = new HashMap<>();
     Map currentLot = parkingLot1;
     int slotOfLot1 = 0;
     int slotOfLot2 = 0;
@@ -40,7 +38,7 @@ public class ParkingLotSystem {
      *
      * @param vehicle object : Take vehicle object as parameter
      * @throws ParkingLotException when parking lot is full or when a vehicle is already exist
-     * @Param slot : Takenin which slot position we want to park our vehicle
+     * @Param slot : Takeing which slot position we want to park our vehicle
      */
     public void park(Vehicle vehicle) throws ParkingLotException {
         if (this.slotOfLot1 == parkingCapacity && this.slotOfLot2 == parkingCapacity) {
@@ -82,6 +80,8 @@ public class ParkingLotSystem {
             for (int position : parkingLot1.keySet()) {
                 if (parkingLot1.containsValue(vehicle)) {
                     parkingLot1.put(position, null);
+                    for (ParkingLotSystemObserver parkingLotSystemObserver : parkingLotSystemObservers)
+                        parkingLotSystemObserver.parkingAvailable();
                 }
             }
         }
@@ -89,6 +89,8 @@ public class ParkingLotSystem {
             for (int position : parkingLot2.keySet()) {
                 if (parkingLot2.containsValue(vehicle)) {
                     parkingLot2.put(position, null);
+                    for (ParkingLotSystemObserver parkingLotSystemObserver : parkingLotSystemObservers)
+                        parkingLotSystemObserver.parkingAvailable();
                 }
             }
         }
@@ -117,8 +119,7 @@ public class ParkingLotSystem {
     /**
      * Purpose : To find the vehicle where it is parked in the lot
      *
-     * @param vehicle : Take vehicle as a parameter so that we can find that vehicle is
-     *                where parked in the lot
+     * @param vehicle : Take vehicle as a parameter so that we can find that vehicle is where parked in the lot
      * @return index of vehicle that we want to find
      */
     public int findVehicle(Vehicle vehicle) {
@@ -156,7 +157,7 @@ public class ParkingLotSystem {
     }
 
     /**
-     *Purpose : This method is create to evenly distribute a vehicle on a lot ;
+     * Purpose : This method is create to evenly distribute a vehicle on a lot ;
      * @param vehicle : vehicle object is parked as a parameter
      */
     public void evenlyParkedVehicle(Vehicle vehicle) {
@@ -172,5 +173,77 @@ public class ParkingLotSystem {
             currentLot = parkingLot1;
             return;
         }
+    }
+
+    /**
+     * Purpose : This method is created to know the location of all parked white cars
+     *
+     * @param vehicle : takes vehicle as parameter for checking the particular color of parked vehicle is white
+     * @return the index position of the particular vehicle to get back the location
+     * @throws ParkingLotException : when no such white color vehicle is found
+     */
+    public int getVehicleBYColour(Vehicle vehicle, String color) {
+        if (this.parkingLot1.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot1.entrySet()) {
+                if (vehicleMap.getValue().getVehicleColor().equalsIgnoreCase(color)) {
+                    return vehicleMap.getKey();
+                }
+            }
+        } else if (this.parkingLot2.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot2.entrySet()) {
+                if (vehicleMap.getValue().getVehicleColor().equalsIgnoreCase(color)) {
+                    return vehicleMap.getKey();
+                }
+            }
+        }
+        throw new ParkingLotException(ParkingLotException.ExceptionType.WHITE_CAR_NOT_FOUND,
+                "White color vehicle not found");
+    }
+
+    public int getVehicleBYNameAndColour(Vehicle vehicle, String name, String color) {
+        if (this.parkingLot1.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot1.entrySet()) {
+                if (vehicleMap.getValue().getVehicleColor().equalsIgnoreCase(color) && vehicleMap.getValue().getName().equalsIgnoreCase(name)) {
+                    return vehicleMap.getKey();
+                }
+            }
+        } else if (this.parkingLot2.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot2.entrySet()) {
+                if (vehicleMap.getValue().getVehicleColor().equalsIgnoreCase(color) && vehicleMap.getValue().getName().equalsIgnoreCase(name)) {
+                    return vehicleMap.getKey();
+                }
+            }
+        }
+        throw new ParkingLotException(ParkingLotException.ExceptionType.WHITE_CAR_NOT_FOUND,
+                "vehicle not found");
+    }
+
+    /**
+     * Purpose : This method is created to know the vehicle plate number of blue color Toyota vehicle
+     *
+     * @param vehicle : takes vehicle as parameter for checking the blue color Toyota vehicle's plate number
+     * @return the vehicle number of that particular vehicle
+     * @throws ParkingLotException : when no such blue color Toyota is found
+     */
+    public int getVehicleBYBlueColorToyotaWithNumberPlate(Vehicle vehicle, String name, String color, String numberPlate) {
+        if (this.parkingLot1.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot1.entrySet()) {
+                if (vehicleMap.getValue().getVehicleColor().equalsIgnoreCase(color) &&
+                        vehicleMap.getValue().getName().equalsIgnoreCase(name) &&
+                        vehicleMap.getValue().getVehicleNumber().equalsIgnoreCase(numberPlate)) {
+                    return vehicleMap.getKey();
+                }
+            }
+        } else if (this.parkingLot2.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot2.entrySet()) {
+                if (vehicleMap.getValue().getVehicleColor().equalsIgnoreCase(color)
+                        && vehicleMap.getValue().getName().equalsIgnoreCase(name)
+                        && vehicleMap.getValue().getVehicleNumber().equalsIgnoreCase(numberPlate)) {
+                    return vehicleMap.getKey();
+                }
+            }
+        }
+        throw new ParkingLotException(ParkingLotException.ExceptionType.NO_SUCH_VEHICLE,
+                "vehicle not found");
     }
 }

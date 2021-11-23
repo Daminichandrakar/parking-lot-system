@@ -14,5 +14,5 @@ public class ParkingLotException extends RuntimeException {
         this.exceptionType = exceptionType;
     }
 
-    public enum ExceptionType {PARKING_LOT_IS_FULL, NO_SUCH_VEHICLE, VEHICLE_ALREADY_EXIST}
+    public enum ExceptionType {PARKING_LOT_IS_FULL, NO_SUCH_VEHICLE, VEHICLE_ALREADY_EXIST ,WHITE_CAR_NOT_FOUND}
 }

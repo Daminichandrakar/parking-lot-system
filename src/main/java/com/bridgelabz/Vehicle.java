@@ -1,5 +1,7 @@
 package com.bridgelabz;
 
+import java.awt.*;
+
 /**
  * @author DAMINI CHANDRAKAR
  * @Purpose: Create a vehicle class which contains vehicle details
@@ -12,23 +14,11 @@ public class Vehicle {
     private String vehicleColor;
 
 
-    public Vehicle(String name, String vehicleNumber, String vehicleColor , String parkingTime) {
+    public Vehicle(String name, String vehicleNumber, String vehicleColor, String parkingTime) {
         this.name = name;
         this.vehicleNumber = vehicleNumber;
         this.vehicleColor = vehicleColor;
         this.parkingTime = parkingTime;
-    }
-
-    public String getParkingTime() {
-        return parkingTime;
-    }
-
-    public void setParkingTime(String parkingTime) {
-        this.parkingTime = parkingTime;
-    }
-
-    public String getVehicleColor() {
-        return vehicleColor;
     }
 
     public String getName() {
@@ -37,6 +27,14 @@ public class Vehicle {
 
     public String getVehicleNumber() {
         return vehicleNumber;
+    }
+
+    public String getParkingTime() {
+        return parkingTime;
+    }
+
+    public String getVehicleColor() {
+        return vehicleColor;
     }
 
     @Override
@@ -48,4 +46,6 @@ public class Vehicle {
                 ", vehicleColor='" + vehicleColor + '\'' +
                 '}';
     }
+
 }
+
