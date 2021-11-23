@@ -195,4 +195,14 @@ public class ParkingLotSystemTest {
                 parkingLotSystem.getVehicleBYBlueColorToyotaWithNumberPlate(vehicle2, "Toyota", "Blue", "HR-26CF2784"));
     }
 
+    @Test
+    public void givenAVehicle_WhenParked_ShouldReturnThePositionOfBMWVehicle() {
+        Vehicle vehicle1 = new Vehicle("BMW", "HR-26CF2784", "Blue", "11:00");
+        parkingLotSystem.park(vehicle1);
+        Assertions.assertEquals("BMW", parkingLotSystem.getVehicleBYName(vehicle1, "BMW"));
+        Vehicle vehicle2 = new Vehicle("Toyota ", "HR-28CG2784", "Red", "11:00");
+        parkingLotSystem.park(vehicle2);
+        Assertions.assertThrows(ParkingLotException.class, () ->
+                parkingLotSystem.getVehicleBYName(vehicle2,"BMW"));
+    }
 }

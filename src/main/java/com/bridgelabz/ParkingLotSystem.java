@@ -196,8 +196,8 @@ public class ParkingLotSystem {
                 }
             }
         }
-        throw new ParkingLotException(ParkingLotException.ExceptionType.WHITE_CAR_NOT_FOUND,
-                "White color vehicle not found");
+        throw new ParkingLotException(ParkingLotException.ExceptionType.NO_SUCH_VEHICLE,
+                "vehicle not found");
     }
 
     public int getVehicleBYNameAndColour(Vehicle vehicle, String name, String color) {
@@ -246,4 +246,23 @@ public class ParkingLotSystem {
         throw new ParkingLotException(ParkingLotException.ExceptionType.NO_SUCH_VEHICLE,
                 "vehicle not found");
     }
+
+    public String getVehicleBYName(Vehicle vehicle, String name) {
+        if (this.parkingLot1.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot1.entrySet()) {
+                if (vehicleMap.getValue().getName().equalsIgnoreCase(name)) {
+                    return vehicleMap.getValue().getName();
+                }
+            }
+        } else if (this.parkingLot2.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot2.entrySet()) {
+                if (vehicleMap.getValue().getName().equalsIgnoreCase(name)) {
+                    return vehicleMap.getValue().getName();
+                }
+            }
+        }
+        throw new ParkingLotException(ParkingLotException.ExceptionType.NO_SUCH_VEHICLE,
+                "vehicle not found");
+    }
+
 }
