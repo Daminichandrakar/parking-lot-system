@@ -12,10 +12,11 @@ public class Vehicle {
     private String vehicleColor;
 
 
-    public Vehicle(String name, String vehicleNumber, String vehicleColor) {
+    public Vehicle(String name, String vehicleNumber, String vehicleColor , String parkingTime) {
         this.name = name;
         this.vehicleNumber = vehicleNumber;
         this.vehicleColor = vehicleColor;
+        this.parkingTime = parkingTime;
     }
 
     public String getParkingTime() {
@@ -36,5 +37,15 @@ public class Vehicle {
 
     public String getVehicleNumber() {
         return vehicleNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "name='" + name + '\'' +
+                ", vehicleNumber='" + vehicleNumber + '\'' +
+                ", parkingTime='" + parkingTime + '\'' +
+                ", vehicleColor='" + vehicleColor + '\'' +
+                '}';
     }
 }
