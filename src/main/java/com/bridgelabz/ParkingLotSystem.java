@@ -285,4 +285,24 @@ public class ParkingLotSystem {
         }
 
     }
+
+    /**
+     * Purpose : This method is created to get back the position of the vehicle which is parked for last 30 minutes
+     *
+     * @param time : takes local time as parameter
+     * @return the index position of the vehicle in parking lot
+     * @throws ParkingLotException : when no vehicle is found parked for last 30 minutes
+     */
+    public String getVehicleBaseOnTime(String time) throws ParkingLotException {
+        for (Vehicle vehicle : parkingLot1.values()) {
+            if (vehicle.getParkingTime().equals(time))
+                return vehicle.getName();
+        }
+        for (Vehicle vehicle : parkingLot2.values()) {
+            if (vehicle.getParkingTime().equals(time))
+                return vehicle.getName();
+        }
+        throw new ParkingLotException(ParkingLotException.ExceptionType.NO_SUCH_VEHICLE, "No such vehicle found");
+    }
+
 }

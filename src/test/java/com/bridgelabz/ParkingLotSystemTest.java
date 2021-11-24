@@ -207,11 +207,21 @@ public class ParkingLotSystemTest {
     }
 
     @Test
-    void givenHandicappedVehicleParked_whenChecked_shouldReturnFirstEmptySpot() throws ParkingLotException {
-        Vehicle vehicle = new Vehicle("BMW", "HR-26CF2784", "Blue", "11:00", Vehicle.Size.LARGE);
-        parkingLotSystem.park(vehicle, Vehicle.DriverType.HANDICAPED);
-        int spot = parkingLotSystem.findVehicle(vehicle);
-        Assertions.assertEquals(1, spot);
+    void givenAVehicle_whenParked_shouldValidatedForNumberPlate() throws ParkingLotException {
+        Vehicle vehicle1 = new Vehicle("BMW", "HR-26CF2784", "Blue", "11:00"
+                , Vehicle.Size.LARGE);
+        parkingLotSystem.park(vehicle1, Vehicle.DriverType.NORMAL);
+        boolean validityCheck = PoliceDepartment.validateVehicleNumber(vehicle1);
+        Assertions.assertTrue(validityCheck);
     }
-    
+
+    @Test
+    void givenAVehicle_whenParked_shouldReturnVehicleAtParticularTime() throws ParkingLotException {
+        Vehicle vehicle1 = new Vehicle("BMW", "HR-26CF2784", "Blue", "11:00"
+                , Vehicle.Size.LARGE);
+        parkingLotSystem.park(vehicle1, Vehicle.DriverType.NORMAL);
+        String result = parkingLotSystem.getVehicleBaseOnTime("11:00");
+        Assertions.assertEquals("BMW",result);
+    }
+
 }
