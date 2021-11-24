@@ -14,7 +14,7 @@ public class Vehicle {
     private String vehicleColor;
 
 
-    public Vehicle(String name, String vehicleNumber, String vehicleColor, String parkingTime) {
+    public Vehicle(String name, String vehicleNumber, String vehicleColor, String parkingTime , Size size ) {
         this.name = name;
         this.vehicleNumber = vehicleNumber;
         this.vehicleColor = vehicleColor;
@@ -46,6 +46,12 @@ public class Vehicle {
                 ", vehicleColor='" + vehicleColor + '\'' +
                 '}';
     }
+
+    enum DriverType{
+        NORMAL,HANDICAPED
+    }
+
+    public enum Size {LARGE, SMALL, MEDIUM}
 
 }
 

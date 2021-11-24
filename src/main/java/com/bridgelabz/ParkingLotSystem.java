@@ -40,7 +40,7 @@ public class ParkingLotSystem {
      * @throws ParkingLotException when parking lot is full or when a vehicle is already exist
      * @Param slot : Takeing which slot position we want to park our vehicle
      */
-    public void park(Vehicle vehicle) throws ParkingLotException {
+    public void park(Vehicle vehicle , Vehicle.DriverType driverType) throws ParkingLotException {
         if (this.slotOfLot1 == parkingCapacity && this.slotOfLot2 == parkingCapacity) {
             for (ParkingLotSystemObserver parkingLotSystemObserver : parkingLotSystemObservers)
                 parkingLotSystemObserver.parkingFull();
@@ -48,6 +48,9 @@ public class ParkingLotSystem {
         }
         if (this.parkingLot1.containsValue(vehicle) || this.parkingLot2.containsValue(vehicle)) {
             throw new ParkingLotException(ParkingLotException.ExceptionType.VEHICLE_ALREADY_EXIST, "Vehicle already exist");
+        }
+        if (driverType.equals(Vehicle.DriverType.HANDICAPED)){
+            this.handicappedPark(vehicle);
         }
         this.evenlyParkedVehicle(vehicle);
     }
@@ -158,6 +161,7 @@ public class ParkingLotSystem {
 
     /**
      * Purpose : This method is create to evenly distribute a vehicle on a lot ;
+     *
      * @param vehicle : vehicle object is parked as a parameter
      */
     public void evenlyParkedVehicle(Vehicle vehicle) {
@@ -265,4 +269,20 @@ public class ParkingLotSystem {
                 "vehicle not found");
     }
 
+    private void handicappedPark(Vehicle vehicle) throws ParkingLotException {
+        for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot1.entrySet()) {
+            if (vehicleMap.getValue() == null) {
+                parkingLot1.put(vehicleMap.getKey(), vehicle);
+            }
+        }
+        if (!parkingLot1.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot2.entrySet()) {
+                if (vehicleMap.getValue() == null) {
+                    parkingLot2.put(vehicleMap.getKey(), vehicle);
+                }
+            }
+
+        }
+
+    }
 }
